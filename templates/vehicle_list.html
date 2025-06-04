@@ -1,0 +1,499 @@
+{% extends "base.html" %}
+{%block title%}  Infinite Ride {%endblock title%}
+
+
+{% block body %} {% load static %}
+<section id="page-head" class="vehicle-header">
+    <h2>Ready to Ride? Let's Get Started!</h2>
+
+    
+<section id="page-head1" class="vehicle-header1">
+  <div class="filter-section">
+
+    <div class="left-button-container">
+    <a href="" class="terms-btn" title="View Rental Contract" onclick="openTermsModal(event)">
+      📄 Terms & Conditions
+    </a>
+  </div>
+    
+    <div class="search-filter-container">
+      <input 
+        type="text" 
+        id="vehicle-search" 
+        class="vehicle-search" 
+        placeholder="Search for vehicles..." 
+        oninput="filterVehiclesByInput(event.target.value)"
+        autocomplete="off"
+      >
+    </div>
+
+    <div class="vehicle-filter">
+      <select onchange="filterCategoryDropdown(this.value)">
+        <option value="all">All Vehicles</option>
+        <option value="bike">Bikes</option>
+        <option value="car">Cars</option>
+        <option value="large_vehicle">Large Vehicles</option>
+      </select>
+      <button onclick="clearFilter()">Clear</button>
+    </div>
+  </div>
+
+<!-- Terms & Conditions Modal -->
+<div id="termsModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeTermsModal()">&times;</span>
+
+    <h2> Infinite Ride – Rental Policies & Agreement</h2>
+<p>
+  Our rental policies are designed to provide you with a seamless, transparent, and secure rental experience. 
+  We prioritize your safety and satisfaction from the moment of booking to the vehicle's return.
+</p>
+
+<hr>
+
+<h3>Booking & Payments</h3>
+<ul>
+  <li>No upfront payment is required to reserve a vehicle.</li>
+  <li>Full payment and a refundable deposit are required at the time of vehicle pickup.</li>
+  <li>The security deposit must be <strong>200% of the total rental amount</strong>.</li>
+  <li>Accepted payment methods: <strong>PhonePe</strong> or <strong>cash</strong> at our office counter.</li>
+</ul>
+
+<h3>Damage, Deposit & Insurance</h3>
+<ul>
+  <li>Security deposit (200% of rental amount) is collected at pickup and refunded after the vehicle is returned in proper condition.</li>
+  <li>Valid identification (<strong>Citizenship, Voter ID or Passport</strong>) is required and must be submitted at the time of pickup.</li>
+  <li><strong>Insurance is optional but highly recommended.</strong> In the event of damage and if no insurance has been opted, the customer is fully liable for all repair costs.</li>
+</ul>
+
+<hr>
+
+<h2>Terms & Conditions</h2>
+<ol>
+  <li><strong>Eligibility & Driver Requirements:</strong> Self drive Renters must be 18+ with a valid driving license. Large Travel vehicles require a company-provided driver.</li>
+<li><strong>Rental Period & Extensions:</strong> The rental period is set at booking. Extensions may be allowed only if you notify us in advance. The extension fee will be double the regular daily rental rate per extra day. Late returns may also incur additional charges.</li>
+  <li><strong>Security Deposit & Payment:</strong> Full rental amount + <strong>200% deposit</strong> must be paid at pickup. A valid <strong>ID document</strong> must also be submitted.</li>
+  <li><strong>Vehicle Usage & Restrictions:</strong> Legal use only. No racing or illegal Activities.</li>
+  <li><strong>Fuel Policy:</strong> Return the vehicle with the same fuel level. Refueling charges will apply otherwise.</li>
+  <li><strong>Liability & Indemnity:</strong> Infinite Ride is not responsible for personal injuries or lost belongings.</li>
+  <li><strong>Termination of Agreement:</strong> Violation of any terms may result in rental termination without a refund.</li>
+  <li><strong>Emergency Contact:</strong>  +977-9800000000 | support@infiniteride.com</li>
+</ol>
+
+
+    <hr>
+
+    <h2>Rental Contract Summary</h2>
+    <p>
+      This contract is an agreement between <strong>Infinite Ride</strong> and the customer. By proceeding, you agree to:
+    </p>
+    <ul>
+      <li>Comply with all policies and conditions.</li>
+      <li>Use the vehicle responsibly.</li>
+      <li>Accept applicable charges for damages, delays, or violations.</li>
+    </ul>
+    <p>Failure to comply may result in penalties or cancellation of future bookings.</p>
+  </div>
+</div>
+<style>
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  overflow: auto;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: auto;
+  padding: 40px 30px;
+  border-radius: 10px;
+  width: 95%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #2d2d2d;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  position: relative;
+  text-align: left; /* Ensures everything is left-aligned */
+}
+
+.modal-content h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #1a1a1a;
+}
+
+.modal-content h3 {
+  font-size: 1.25rem;
+  margin-top: 30px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  color: #444;
+}
+
+.modal-content ul,
+.modal-content ol {
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.modal-content li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+hr {
+  margin: 30px 0;
+  border: none;
+  border-top: 1px solid #e0e0e0;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close:hover {
+  color: #e74c3c;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+  .modal-content {
+    padding: 25px 20px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .modal-content h3 {
+    font-size: 1.1rem;
+  }
+}
+</style>
+
+
+
+<script>
+function openTermsModal(event) {
+  event.preventDefault();
+  document.getElementById("termsModal").style.display = "block";
+}
+
+function closeTermsModal() {
+  document.getElementById("termsModal").style.display = "none";
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+  const modal = document.getElementById("termsModal");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+};
+</script>
+
+
+
+  <style>
+    
+    .filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.left-button-container {
+  flex-shrink: 0;
+}
+
+.terms-btn {
+  background-color: #0b2d4f;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.terms-btn:hover {
+  background-color: #9c0909;
+}
+
+    .vehicle-search {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .vehicle-search:focus {
+      border-color: #9c0909;
+      outline: none;
+    }
+
+    .vehicle-filter {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .vehicle-filter select,
+    .vehicle-filter button {
+      padding: 10px 15px;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .vehicle-filter select {
+      border: 1px solid #ccc;
+    }
+
+    .vehicle-filter button {
+      background-color: #9c0909;
+      color: white;
+      border: none;
+    }
+
+    .vehicle-filter button:hover {
+      background-color: #0b2d4f;
+    }
+  </style>
+
+  <script>
+    function filterVehiclesByInput(query) {
+      query = query.toLowerCase().trim();
+      const vehicles = document.querySelectorAll('.vehicle');
+
+      vehicles.forEach(vehicle => {
+        const name = vehicle.querySelector('.desc span').textContent.toLowerCase();
+        const category = vehicle.getAttribute('data-category').toLowerCase();
+
+        if (name.includes(query) || category.includes(query)) {
+          vehicle.style.display = 'block';
+        } else {
+          vehicle.style.display = 'none';
+        }
+      });
+    }
+
+    function filterCategoryDropdown(category) {
+      const vehicles = document.querySelectorAll('.vehicle');
+      vehicles.forEach(vehicle => {
+        const vehicleCategory = vehicle.getAttribute('data-category');
+        vehicle.style.display = (category === 'all' || vehicleCategory === category) ? 'block' : 'none';
+      });
+    }
+
+    function clearFilter() {
+      document.getElementById('vehicle-search').value = '';
+      filterCategoryDropdown('all');
+    }
+
+    // Initial sort
+    window.onload = function () {
+      const vehicleContainer = document.querySelector(".vehicle-container");
+      const vehicles = Array.from(document.querySelectorAll(".vehicle"));
+      vehicles.sort((a, b) => {
+        const aAvail = a.getAttribute("data-available") === "true" ? 1 : 0;
+        const bAvail = b.getAttribute("data-available") === "true" ? 1 : 0;
+        return bAvail - aAvail;
+      });
+      vehicles.forEach(v => vehicleContainer.appendChild(v));
+    };
+  </script>
+</section>
+
+
+</section>
+
+
+
+
+
+
+<section id="vehicle-head" class="section-p1">
+    <div class="vehicle-container">
+
+        {% for bike in bikes %}
+        <div class="vehicle" data-category="bike">
+            <div class="overlay">
+                <div class="details-overlay">
+                    <button class="details" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#vehicle-modal"
+                            data-vehicle-name="{{ bike.name }}"
+                            data-vehicle-des="{{ bike.description }}"
+                            data-vehicle-image="{{ bike.image.url }}"
+                            data-vehicle-price="{{ bike.price_per_day }}"
+                            data-vehicle-engine-capacity="{{ bike.engine_capacity }}"
+                            data-vehicle-bike-type="{{ bike.bike_type }}">
+                        View Details
+                    </button>
+                </div>
+            </div>
+            <img src="{{ bike.image.url }}" alt="{{ bike.name }}">
+            <div class="desc">
+                <span>{{ bike.name }}</span>
+                <h4>Rs {{ bike.price_per_day }}/day</h4>
+            </div>
+            {% if bike.available %}
+                <div class="availability-status available">Available</div>
+            {% else %}
+                <div class="availability-status unavailable">Not Available</div>
+            {% endif %}
+            <div class="button-container">
+                {% if bike.available %}
+                    <a href="{% url 'book_vehicle' 'bike' bike.id %}">
+                        <button>Book Now</button>
+                    </a>
+                {% else %}
+                    <button disabled></button>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for car in cars %}
+        <div class="vehicle" data-category="car">
+            <div class="overlay">
+                <div class="details-overlay">
+                    <button class="details" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#vehicle-modal"
+                            data-vehicle-name="{{ car.name }}"
+                            data-vehicle-des="{{ car.description }}"
+                            data-vehicle-image="{{ car.image.url }}"
+                            data-vehicle-price="{{ car.price_per_day }}"
+                            data-vehicle-seating-capacity="{{ car.seating_capacity }}"
+                            data-vehicle-fuel-type="{{ car.fuel_type }}"
+                            data-vehicle-transmission-type="{{ car.transmission_type }}"
+                            data-vehicle-engine-capacity="{{ car.engine_capacity }}">
+                        View Details
+                    </button>
+                </div>
+            </div>
+            <img src="{{ car.image.url }}" alt="{{ car.name }}">
+            <div class="desc">
+                <span>{{ car.name }}</span>
+                <h4>Rs {{ car.price_per_day }}/day</h4>
+            </div>
+            {% if car.available %}
+                <div class="availability-status available">Available</div>
+            {% else %}
+                <div class="availability-status unavailable">Not Available</div>
+            {% endif %}
+            <div class="button-container">
+                {% if car.available %}
+                    <a href="{% url 'book_vehicle' 'car' car.id %}">
+                        <button>Book Now</button>
+                    </a>
+                {% else %}
+                    <button disabled></button>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for large_vehicle in large_vehicles %}
+        <div class="vehicle" data-category="large_vehicle">
+            <div class="overlay">
+                <div class="details-overlay">
+                    <button class="details" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#vehicle-modal"
+                            data-vehicle-name="{{ large_vehicle.name }}"
+                            data-vehicle-des="{{ large_vehicle.description }}"
+                            data-vehicle-image="{{ large_vehicle.image.url }}"
+                            data-vehicle-price="{{ large_vehicle.price_per_day }}"
+                            data-vehicle-seating-capacity="{{ large_vehicle.seating_capacity }}">
+                        View Details
+                    </button>
+                </div>
+            </div>
+            <img src="{{ large_vehicle.image.url }}" alt="{{ large_vehicle.name }}">
+            <div class="desc">
+                <span>{{ large_vehicle.name }}</span>
+                <h4>Rs {{ large_vehicle.price_per_day }}/day</h4>
+            </div>
+            {% if large_vehicle.available %}
+                <div class="availability-status available">Available</div>
+            {% else %}
+                <div class="availability-status unavailable">Not Available</div>
+            {% endif %}
+            <div class="button-container">
+                {% if large_vehicle.available %}
+                    <a href="{% url 'book_vehicle' 'large_vehicle' large_vehicle.id %}">
+                        <button>Book Now</button>
+                    </a>
+                {% else %}
+                    <button disabled></button>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Vehicle Modal -->
+<div id="vehicle-modal" class="modal fade" tabindex="-1" aria-labelledby="vehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m" style="width: 100%; margin-top: 10vh; margin-left: auto; margin-right: auto;">
+        <div class="modal-content" style="max-height: 80vh; display: flex; flex-direction: column;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="vehicleModalLabel">Vehicle Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="overflow-y: auto; flex-grow: 1;">
+                <div style="display: flex; justify-content: center; align-items: center; height: auto; margin-bottom: 1rem;">
+                    <img id="vehicle-image" src="" alt="Vehicle Image" style="width: 30%; height: 30%;">
+                </div>
+                <h4 id="vehicle-name"></h4>
+                <p id="vehicle-des"></p>
+                <strong>Price: </strong><p id="vehicle-price"></p>
+                <div id="vehicle-extra-details">
+                    <p id="fuel-type-placeholder"></p>
+                    <p id="transmission-type-placeholder"></p>
+                    <p id="engine-capacity-placeholder"></p>
+                    <p id="bike-type-placeholder"></p>
+                    <p id="seating-capacity-placeholder"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

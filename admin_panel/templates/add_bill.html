@@ -1,0 +1,110 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<style>
+    .form-container {
+        max-width: 500px;
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+    h1 {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding: 6px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        line-height: 1.2;
+    }
+
+    .button-container {
+        display: flex;
+        gap: 8px;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+    }
+
+    .save-btn {
+        background: #007bff;
+        color: white;
+    }
+
+    .save-btn:hover {
+        background: #0056b3;
+    }
+
+    .back-btn {
+        background: #6c757d;
+        color: white;
+    }
+
+    .back-btn:hover {
+        background: #5a6268;
+    }
+</style>
+
+<div class="form-container">
+    <h1>Add New Bill</h1>
+
+    <!-- Display success or error messages -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <p style="color: green; font-weight: bold;">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form action="{% url 'add_bill' %}" method="POST">
+        {% csrf_token %}
+    
+        <label for="booking_id">Booking ID</label>
+        <select name="booking_id" id="booking_id" required>
+            {% for booking in available_booking_ids %}
+                <option value="{{ booking.id }}">{{ booking.id }}</option>
+            {% empty %}
+                <option disabled>No available bookings</option>
+            {% endfor %}
+        </select>
+
+        
+        <label for="payment_status">Payment Status</label>
+        <select id="payment_status" name="payment_status">
+            <option value="paid">Paid</option>
+            <option value="unpaid">Unpaid</option>
+        </select>
+
+        <div class="button-container">
+            <button type="submit" class="btn save-btn">Save</button>
+            <a href="{% url 'admin_bill' %}" class="btn back-btn">Back</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

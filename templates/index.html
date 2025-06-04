@@ -1,0 +1,207 @@
+<!doctype html>
+{% extends "base.html" %}
+{%block title%} Infinite Ride {%endblock title%}
+
+
+{% block  body %} {% load static %}
+
+<section id="home">
+    <h3>Your Journery, Our Wheel</h3>
+    <p>Discover the joy of effortless travel with <strong> INFINITE &nbsp; RIDE.</strong><br> 
+        Choose from sleek cars, rugged bikes, <br>and more—crafted to make every journey unforgettable.</p>
+        <a href="/vehicle">  
+    <button href="">Book Now</button></a>
+</section>
+
+<!-- WhatsApp Floating Button + Label -->
+<div style="position: fixed; bottom: 20px; right: 20px; text-align: center; z-index: 1000; cursor: pointer;">
+    <div style="font-size: 14px; color: #444; margin-bottom: 5px;">Chat with us</div>
+    <a href="" target="_blank" rel="noopener noreferrer">
+        <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png"
+             alt="WhatsApp Chat"
+             style="width: 50px; height: 50px; border-radius: 50%; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+    </a>
+</div>
+
+
+
+
+
+<section id="feature" class="section-p1">
+    <h2>Discover Our Featured Vehicles</h2>
+    <p>Choose from our top-quality vehicles, offering comfort and reliability for every journey. Whether it’s city cruising or off-road adventure, we’ve got you covered.</p>
+    <div class="section-divider">
+        <hr class="divider-line">
+        <span class="divider-text">Explore Now</span>
+        <hr class="divider-line">
+    </div>
+    <div class="vehicle-container">
+
+                
+                {% for bike in featured_bikes %}
+                <div class="vehicle">
+                    <div class="overlay">
+                        <div class="details-overlay">
+                            <button class="details" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#vehicle-modal"
+                                    data-vehicle-name="{{ bike.name }}"
+                                    data-vehicle-des="{{ bike.description }}"
+                                    data-vehicle-image="{{ bike.image.url }}"
+                                    data-vehicle-price="{{ bike.price_per_day }}"
+                                    data-vehicle-engine-capacity="{{ bike.engine_capacity }}"
+                                    data-vehicle-bike-type="{{ bike.bike_type }}">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                    <img src="{{ bike.image.url }}" alt="{{ bike.name }}">
+                    <div class="desc">
+                        <span>{{ bike.name }}</span>
+                        
+                        <h4>${{ bike.price_per_day }}/day</h4>
+                    </div>
+                    {% if bike.available %}
+                        <div class="availability-status available">Available</div>
+                    {% else %}
+                        <div class="availability-status unavailable">Not Available</div>
+                    {% endif %}
+                    <div class="button-container">
+                        {% if bike.available %}
+                            <a href="{% url 'book_vehicle' 'bike' bike.id %}">
+                                <button>Book Now</button>
+                            </a>
+                        {% else %}
+                            <button disabled></button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+        
+                {% for car in featured_cars %}
+                <div class="vehicle">
+                    <div class="overlay">
+                        <div class="details-overlay">
+                            <button class="details" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#vehicle-modal"
+                                    data-vehicle-name="{{ car.name }}"
+                                    data-vehicle-des="{{ car.description }}"
+                                    data-vehicle-image="{{ car.image.url }}"
+                                    data-vehicle-price="{{ car.price_per_day }}"
+                                    data-vehicle-seating-capacity="{{ car.seating_capacity }}"
+                                    data-vehicle-fuel-type="{{ car.fuel_type }}"
+                                    data-vehicle-transmission-type="{{ car.transmission_type }}"
+                                    data-vehicle-engine-capacity="{{ car.engine_capacity }}">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                    <img src="{{ car.image.url }}" alt="{{ car.name }}">
+                    <div class="desc">
+                        <span>{{ car.name }}</span>
+                       
+                        <h4>${{ car.price_per_day }}/day</h4>
+                    </div>
+                    {% if car.available %}
+                        <div class="availability-status available">Available</div>
+                    {% else %}
+                        <div class="availability-status unavailable">Not Available</div>
+                    {% endif %}
+                    
+                    <div class="button-container">
+                        {% if car.available %}
+
+                            <a href="{% url 'book_vehicle' 'car' car.id %}">
+                                <button>Book Now</button>
+                            </a>
+                        {% else %}
+                            <button disabled></button>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+                {% endfor %}
+        
+                {% for large_vehicle in featured_large_vehicles %}
+                <div class="vehicle">
+                    <div class="overlay">
+                        <div class="details-overlay">
+                            <button class="details" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#vehicle-modal"
+                                    data-vehicle-name="{{ large_vehicle.name }}"
+                                    data-vehicle-des="{{ large_vehicle.description }}"
+                                    data-vehicle-image="{{ large_vehicle.image.url }}"
+                                    data-vehicle-price="{{ large_vehicle.price_per_day }}"
+                                    data-vehicle-seating-capacity="{{ large_vehicle.seating_capacity }}">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                    <img src="{{ large_vehicle.image.url }}" alt="{{ large_vehicle.name }}">
+                    <div class="desc">
+                        <span>{{ large_vehicle.name }}</span>
+                        
+                        <h4>${{ large_vehicle.price_per_day }}/day</h4>
+                    </div>
+                    {% if large_vehicle.available %}
+                        <div class="availability-status available">Available</div>
+                    {% else %}
+                        <div class="availability-status unavailable">Not Available</div>
+                    {% endif %}
+                    <div class="button-container">
+                        {% if large_vehicle.available %}
+
+                            <a href="{% url 'book_vehicle' 'large_vehicle' large_vehicle.id %}">
+                                <button>Book Now</button>
+                            </a>
+                        {% else %}
+                            <button disabled></button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+        
+            </div>
+        </section>
+
+
+<!-- Vehicle Modal -->
+<div id="vehicle-modal" class="modal fade" tabindex="-1" aria-labelledby="vehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m" style="width: 100%; margin-top: 10vh; margin-left: auto; margin-right: auto;">
+        <div class="modal-content" style="max-height: 80vh; display: flex; flex-direction: column;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="vehicleModalLabel">Vehicle Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="overflow-y: auto; flex-grow: 1;">
+                <div style="display: flex; justify-content: center; align-items: center; height: auto; margin-bottom: 1rem;">
+                    <img id="vehicle-image" src="" alt="Vehicle Image" style="width: 30%; height: 30%;">
+                </div>
+                <h4 id="vehicle-name"></h4>
+                <p id="vehicle-des"></p>
+                <strong>Price:</strong><p id="vehicle-price"></p>
+                <!-- Extra details based on vehicle type -->
+                <div id="vehicle-extra-details">
+                    <!-- Dynamic content will be injected here -->
+                    <p id="fuel-type-placeholder"></p>
+                    <p id="transmission-type-placeholder"></p>
+                    <p id="engine-capacity-placeholder"></p>
+                    <p id="bike-type-placeholder"></p>
+                    <p id="seating-capacity-placeholder"></p>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                
+                <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock body %}

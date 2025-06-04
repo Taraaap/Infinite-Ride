@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block title%}Vehicle Rental System {% endblock title %}</title>
+    {% load static %}
+    <link rel="stylesheet" href=" {% static 'style.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="{% static 'bootstrap-5.3.3-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+
+
+</head>
+<body>
+
+<section id="topbar" class=" border-bottom py-1" >
+  <div class="container d-flex justify-content-between align-items-center">
+
+    <div class="d-flex gap-3 align-items-center small text-secondary">
+      <div><i class="fas fa-envelope"></i> <a href="mailto:infiniteride12@gmail.com" class="text-secondary text-decoration-none">infiniteride12@gmail.com</a></div>
+      <div><i class="fas fa-phone"></i> <a href="tel:+9779800000000" class="text-secondary text-decoration-none">+977-9800000000</a></div>
+    </div>
+
+    <div class="d-flex gap-3">
+      <a href="https://facebook.com" target="_blank" class="text-secondary fs-5"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://instagram.com" target="_blank" class="text-secondary fs-5"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com" target="_blank" class="text-secondary fs-5"><i class="fab fa-twitter"></i></a>
+    </div>
+  </div>
+</section>
+
+
+    <section id="header">
+        <a hred="#"><img src="{% static 'img/logo1.png' %}" class="logo" alt="logo"></a>
+        <div>
+             <ul id="navbar">
+                <li><a  href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'vehicle_list'%}">Vehicles</a></li>
+                
+                <li><a  href="{% url 'contact'%}">Contact</a></li>
+                
+                {% if user.is_authenticated %}
+            
+              <!-- User Profile Dropdown for logged-in users -->
+            <li class="nav-item dropdown" >
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" 
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user"></i>  {{ user.username }}
+             </a>
+             <ul class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #ffffff;">
+            <li><a class="dropdown-item" href="{% url 'profile' %}" style="background-color: #ffffff;">Your Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'booking_history' %}"style="background-color: #ffffff;">Booking History</a></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}"style="background-color: #ffffff;">Logout</a></li>
+            </ul>
+            </li><style>
+                .dropdown-item{
+                    background-color: wheat;
+                }
+            </style>
+
+                
+            {% else %}
+                <!-- Login Link for non-authenticated users -->
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+                
+
+            </ul>  
+        </div>
+    </section>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show my-0 " role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+      </div>
+      {% endfor %}
+    {% endif %}
+    <style>.register-alert {
+        background-color: #ffdddd !important; /* Light red */
+        color: #a94442 !important; /* Dark red text */
+        border-left: 5px solid #a94442 !important;
+    }
+    </style>
+
+    {% block body %} {% endblock body %}
+    
+
+    {% block footer %}
+
+    {% block newsletter %}
+    <section id="newsletter" class="section-p1 section-m1">
+        <div class="newstext">
+            <h4>Stay Ahead with Our Updates</h4>
+            <p>Sign up for exclusive email alerts on the latest fleet arrivals, <span>special deals, and unbeatable offers.</span></p>
+        </div>
+        <div class="form">
+            <input type="text" placeholder="Enter your E-mail.....">
+            <a href="/login">
+            <button class="normal" >Sign Up</button></a>
+        </div>
+    </section>
+    {% endblock %}
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="{%static 'img/logo1.png'%}" alt="">
+            <h4> Contact</h4>
+            <p> <strong>Address:</strong>  Bharatpur Chitwan,Nepal</p>
+            <p> <strong>Phone:</strong> +977-9800000000</p>
+            <p> <strong>Email:</strong> infiniteride12@gmail.com</p>
+            <p> <strong>Hours:</strong>  8am-8pm , Tue-Sun</p>
+            <div class="follow"> 
+                <h4>Follow Us</h4>
+                <div class="icon">
+                    <a href="" class="fab fa-facebook"></a>
+                    <a href="#" class="fab fa-instagram"></a>
+                    <a href="#" class="fab fa-tiktok"></a>
+                    <a href="#" class="fab fa-twitter"></a>
+                    <a href="#" class="fab fa-pinterest"></a>
+                    <a href="#" class="fab fa-youtube"></a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="/about">About Us</a>
+            <a href="/policy#rental-policy">Rental Policies</a>
+            <a href="/policy#privacy-policy">Privacy Policy</a>
+            <a href="/policy#terms-conditions">Terms & Conditions</a>
+            <a href="/contact">Contact Us</a>
+        </div>
+        <div class="col">
+            <h4>Rental Services</h4>
+            <a href="/vehicle">Car Rentals</a>
+            <a href="/vehicle">Bike Rentals</a>
+            
+            
+            <a href="/vehicle">Corporate Rentals</a>
+        </div>
+        
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="{% url 'register' %}">Sign In</a>
+            {% if user.is_authenticated %}
+  <a href="/booking-history">My Bookings</a>
+{% else %}
+  <a href="/login/"> My Bookings</a>
+{% endif %}
+            
+            
+            <a href="/policy#help-center">Help Center</a>
+        </div>        
+        <div class="copyright">
+            <p>&copy;2025<strong> INFINITE RIDE.</strong> All rights reserved</p>
+        </div>
+    </footer>
+    {% endblock %} 
+    <script src="{% static 'bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script  src="{% static 'script.js' %}"> </script>
+</body>
+</html>
+
+

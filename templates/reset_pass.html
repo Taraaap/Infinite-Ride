@@ -1,0 +1,91 @@
+<!doctype html>
+{% extends "base.html" %}
+{% block title %}Infinite Ride{% endblock %}
+
+{% block body %}
+<div class="password-reset-body">
+    <div class="password-reset-container">
+        <h2>Enter email</h2>
+<style>
+.password-reset-body{
+   
+        height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;     
+}
+.password-reset-container {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    text-align: center;
+    justify-content: center;
+    
+}
+
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #0b2d4f;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0b2d4f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #9c0909;
+}
+
+a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #9c0909;
+    font-size: 14px;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #0b2d4f;
+}
+
+        </style>
+        
+        <form method="post" action="{% url 'reset_pass' %}">
+            {% csrf_token %}
+            <p>Enter your email address and we'll send you a OTP to reset your password.</p>
+            <input type="email" name="email" placeholder="Email" required>
+            <button type="submit">Submit</button>
+        </form>
+        
+        <p><a href="{% url 'login' %}"><strong>Back to login</strong></a></p>
+    </div>
+</div>
+
+
+ {% block newsletter %}
+{% endblock %}
+{% endblock body %} 
+{% block footer %}
+{% endblock %}

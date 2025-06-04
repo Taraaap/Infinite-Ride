@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Infinite Ride{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Your Booking History</h2>
+
+   
+
+    {% if bookings %}
+        <div class="row">
+            {% for booking in bookings %}
+                <div class="col-md-10 offset-md-1 mb-4">
+                    <!-- Booking Card -->
+                    <div class="card shadow-sm border-0 rounded-lg">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0">Booking Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Name:</strong> {{ booking.user.username }}</p>
+                                    <p><strong>Phone:</strong> {{ booking.user.phone }}</p>
+                                    <p><strong>Vehicle:</strong> {{ booking.get_vehicle }}</p>
+                                    <p><strong>Vehicle Type:</strong> {{ booking.get_vehicle_type }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Start Date:</strong> {{ booking.start_date|date:"D, M d, Y" }}</p>
+                                    <p><strong>End Date:</strong> {{ booking.end_date|date:"D, M d, Y" }}</p>
+                                    <p><strong>Drop-off Location:</strong> {{ booking.drop_off_address }}</p>
+                                    <p><strong>Total Amount:</strong> Rs {{ booking.total_amount }}</p>
+                                </div>
+                            </div>
+
+                            <p><strong>Status:</strong> 
+                                <span class="badge fw-bold 
+                                    {% if booking.is_completed %} bg-success
+                                    {% elif booking.status == 'Pending' %} bg-warning text-dark
+                                    {% elif booking.status == 'Confirmed' %} bg-primary
+                                    {% elif booking.status == 'Canceled' %} bg-danger
+                                    {% else %} bg-secondary {% endif %}">
+                                    {% if booking.is_completed %}Completed{% else %}{{ booking.status }}{% endif %}
+                                </span>
+                                <a href="{% url 'bill_detail' booking_id=booking.id %}" class="ms-2 text-decoration-none">View Bill</a>
+                            
+                                {% if not booking.is_completed and booking.status != 'Canceled' %}
+                                <!-- Cancel Button -->
+                                <form method="post" action="{% url 'cancel_booking' booking.id %}" style="display:inline;" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-danger ms-2">Cancel Booking</button>
+                                </form>
+                            {% endif %}
+                            </p>
+
+                            <!-- Review Section -->
+                            {% if booking.is_completed %}
+                                <hr>
+                                {% if booking.reviews.count == 0 %}
+                                    <h5 class="mb-3">Leave a Review</h5>
+                                    <form method="post" action="{% url 'submit_review' %}" class="review-form">
+                                        {% csrf_token %}
+                                        <div class="form-group mb-2">
+                                            <label for="review_text">Your Review:</label>
+                                            <textarea class="form-control" name="review_text" rows="3" required></textarea>
+                                        </div>
+                                        <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                                        <button type="submit" class="btn btn-dark">Submit Review</button>
+                                    </form>
+                                {% else %}
+                                <h5 class="mb-2 fw-semibold text-dark">Your Review:</h5>
+                                <div class="review-box p-3 rounded shadow-sm bg-white">
+                                    <p class="text-secondary fst-italic">"{{ booking.reviews.first.review_text }}"</p>
+                                    <small class="text-muted d-block text-end">Submitted on {{ booking.reviews.first.created_at|date:"D, M d, Y" }}</small>
+                                </div>
+                                
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No bookings available in your history.</p>
+    {% endif %}
+</div>
+
+{% block footer %}{% endblock %}
+{% endblock %}

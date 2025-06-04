@@ -1,0 +1,51 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-4">Manage Large Vehicles</h1>
+
+    <!-- Display success or error messages -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p style="color: green; font-weight: bold;">{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Add Large Vehicle Button (top right corner) -->
+    <div class="text-right mb-4">
+        <a href="{% url 'add_large_vehicle' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Add </a>
+    </div>
+
+    <!-- Table for displaying large vehicles -->
+    <table class="min-w-full bg-white shadow rounded-lg">
+        <thead>
+            <tr class="border-b">
+                <th class="py-2 px-4 text-left">Name</th>
+                <th class="py-2 px-4 text-left">Price per Day</th>
+                <th class="py-2 px-4 text-left">Available</th>
+                <th class="py-2 px-4 text-left">Featured</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for vehicle in large_vehicles %}
+                <tr class="border-b">
+                    <td class="py-2 px-4">
+                        <!-- Clickable link to edit vehicle details -->
+                        <a href="{% url 'large_vehicle_details' large_vehicle_id=vehicle.id %}" class="text-blue-500">{{ vehicle.name }}</a>
+                    </td>
+                    <td class="py-2 px-4">{{ vehicle.price_per_day }}</td>
+                    <td class="py-2 px-4">{{ vehicle.available }}</td>
+                    <td class="py-2 px-4">{{ vehicle.featured_vehicle }}</td>
+                    
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="py-4 text-center text-gray-500">No large vehicles available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

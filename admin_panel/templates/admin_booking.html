@@ -1,0 +1,185 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<style>
+    .form-container {
+        max-width: 1000px;
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+    h1 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .button-container {
+        display: flex;
+        gap: 8px;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+    }
+
+    .save-btn {
+        background: #007bff;
+        color: white;
+    }
+
+    .save-btn:hover {
+        background: #0056b3;
+    }
+
+    .delete-btn {
+        background: #dc3545;
+        color: white;
+    }
+
+    .delete-btn:hover {
+        background: #c82333;
+    }
+
+    .back-btn {
+        background: #6c757d;
+        color: white;
+    }
+
+    .back-btn:hover {
+        background: #5a6268;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .text-blue-500 {
+        color: #007bff;
+    }
+
+    .text-red-500 {
+        color: #dc3545;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+</style>
+
+<h1 class="text-3xl font-bold mb-4">Manage Bookings</h1>
+
+<!-- Display success or error messages -->
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p style="color: green; font-weight: bold;">{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- Add Booking Button (top right corner) -->
+<div class="text-right mb-4">
+    <a href="{% url 'add_booking' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Add Booking</a>
+</div>
+
+<div class="form-container">
+    <table class="min-w-full bg-white shadow rounded-lg">
+        <thead>
+            <tr class="border-b">
+                <th class="py-2 px-4 text-left">Booking ID</th>
+                <th class="py-2 px-4 text-left">User</th>
+                <th class="py-2 px-4 text-left">Phone Number</th>
+                <th class="py-2 px-4 text-left">Vehicle</th>
+                <th class="py-2 px-4 text-left">Total Days</th>
+                <th class="py-2 px-4 text-left">Total Amount</th>
+                <th class="py-2 px-4 text-left">Status</th>
+                <th class="py-2 px-4 text-left">Completion Status</th>
+                <th class="py-2 px-4 text-left">Payment Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr class="border-b {% if booking.status == 'Canceled' %}text-red-600 fw-semibold{% endif %}">
+                <td class="py-2 px-4">{{ booking.id }}</td>
+                <td class="text-blue-500 py-2 px-4"><a href="{% url 'booking_details' booking.id %}">{{ booking.user.username }}</a></td>
+                <td class="py-2 px-4">{{ booking.phone_number }}</td>
+                <td class="py-2 px-4">
+                    {% if booking.car %}Car: {{ booking.car.name }}
+                    {% elif booking.bike %}Bike: {{ booking.bike.name }}
+                    {% elif booking.large_vehicle %}Large Vehicle: {{ booking.large_vehicle.name }}
+                    {% else %}No vehicle selected
+                    {% endif %}
+                </td>
+                <td class="py-2 px-4">{{ booking.total_days }}</td>
+                <td class="py-2 px-4">{{ booking.total_amount }}</td>
+                <td class="py-2 px-4">
+                    {% if booking.status == 'Canceled' %}
+                        <span class="text-red-600 font-semibold">&#10060; Cancelled by User</span>
+                    {% else %}
+                        {{ booking.get_status_display }}
+                    {% endif %}
+                </td>
+                <td class="py-2 px-4">
+                    {% if booking.is_completed %}
+                        <span class="text-green-500">Completed</span>
+                    {% else %}
+                        <span class="text-yellow-500">Not Completed</span>
+                    {% endif %}
+                </td>
+                <td class="py-2 px-4">
+                    {% if booking.payment_status == "Paid" %}
+                        <span class="text-green-500">Paid</span>
+                    {% else %}
+                        <span class="text-red-500">Unpaid</span>
+                    {% endif %}
+                </td>
+            </tr>
+            
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="mt-4">
+    <span class="mr-2">Page: {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    
+    {% if page_obj.has_previous %}
+        <a href="?page=1" class="bg-blue-500 text-white py-1 px-3 rounded">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="bg-blue-500 text-white py-1 px-3 rounded">Previous</a>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="bg-blue-500 text-white py-1 px-3 rounded">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="bg-blue-500 text-white py-1 px-3 rounded">Last</a>
+    {% endif %}
+</div>
+
+{% endblock %}

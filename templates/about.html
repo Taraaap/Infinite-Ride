@@ -1,0 +1,94 @@
+<!doctype html>
+{% extends "base.html" %}
+{%block title%} Infinite Ride  {%endblock title%}
+
+
+{% block  body %} {% load static %}
+<section id="page-head" class="about-header">
+    <marquee loop="-1" width="100%" behavior="scroll" direction="left" style="padding: 20px 0; font-size: 18px;">
+        Welcome to <strong>&nbsp;&nbsp;INFINITE&nbsp; RIDE!!&nbsp;&nbsp;</strong> Discover our wide range of
+        vehicles, Choose from a range of vehicles, from stylish coupes to group-friendly buses, designed to make
+        every journey unforgettable! and rent the perfect ride for your next adventure!
+    </marquee>
+
+    <h4>Start Your Journey with Confidence</h4>
+
+</section>
+
+<section id="about-head" class="section-p1 ">
+    <div>
+        <img id="autoChangeImage" src="{% static 'img/about/banner.png'%}" alt="">
+    </div>
+    
+    <div> 
+        <h2>Who we are</h2>
+        <p>At <strong> INFINITE RIDE,</strong> we believe that travel should be as comfortable and convenient as
+            possible.
+            Whether you're planning a weekend getaway, a business trip, or a special event, we provide a wide range
+            of vehicles to suit your needs.
+            Our fleet includes cars, bikes, sumos, and buses, all meticulously maintained to ensure safety and
+            reliability.
+            We offer flexible rental options and exceptional customer service to make your experience seamless and
+            stress-free.
+            From compact cars to large buses, we have the perfect vehicle for any journey.
+            Our commitment to sustainability means that we also offer eco-friendly vehicle options, so you can
+            explore while minimizing your environmental footprint.
+            Rent with us and enjoy a smooth ride, wherever the road takes you.</p>
+    </div>
+</section>
+
+<div class="p-2 mb-2" style="color:#9c0909; ">
+    <div class="row m-2" >
+        <div class="container fluid px-0" style="color:#000000; "><h1 class="my-3 text-center">Why Ride with Us?</h1></div>
+        <div class="col-xl-4">
+          <div class="container fluid px-0" >
+          
+            <img src = "{%static 'img/about/trust.jpg'%}" width="300" height="300"  style=" background-color: white;border-radius: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin-left:60px" >
+          </div>
+          <h2 class="hd my-2 " style=" text-align:center">Safety First</h2>
+          <p style=" text-align:center">Your safety is our top priority. Our vehicles undergo routine maintenance and servicing every two weeks to ensure a smooth and secure ride.</p>
+        
+        </div>
+        <div class="col-xl-4">
+          <div class="container" >
+           
+            <img src = "{%static 'img/about/affordable.jpg'%}" width="300" height="300"  style=" background-color: white;border-radius: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin-left:60px" >
+          </div>
+          <h2 class="hd my-2 " style=" text-align:center">Budget-Friendly</h2>
+          <p style=" text-align:center">All the rent are in affordable prices. If there is a problem in the vehicle, there is a return back policy.  </p>
+         
+        </div>
+        <div class="col-xl-4">
+          <div class="container-center" >
+            
+            <img src = "{%static 'img/about/hygine.png'%}" width="300" height="300"  style=" background-color: white;border-radius: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin-left:60px" >
+          </div>
+          <h2 class="hd my-2" style=" text-align:center">Clean & Comfortable</h2>
+          <p style=" text-align:center">We prioritize your comfort with spotless, well-maintained vehicles, ensuring a hygienic and enjoyable ride every time. </p>
+        </div>
+    </div>
+    </div>
+
+<script>
+    const images = [
+        "{% static 'img/about/royal.png' %}",
+        "{% static 'img/about/car.png' %}",
+        "{% static 'img/about/scooty.png' %}",
+        "{% static 'img/about/banner.png' %}",
+        "{% static 'img/about/bike.png' %}"
+    ];
+
+    let currentIndex = 0;
+    const imageElement = document.getElementById('autoChangeImage');
+
+    function changeImage() {
+        currentIndex = (currentIndex + 1) % images.length; 
+        imageElement.src = images[currentIndex];
+    }
+
+    setInterval(changeImage, 2000);
+</script>
+
+
+
+{% endblock body %}

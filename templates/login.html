@@ -1,0 +1,32 @@
+<!doctype html>
+{% extends "base.html" %}
+{%block title%} Infinite Ride  {%endblock title%}
+
+
+{% block  body %} 
+<div class="login-body">
+    <div class="login-container">
+    <h2>Login</h2>
+   
+
+    <form id="login-form" method="post" action="{% url 'login' %}" >
+        {% csrf_token %}
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{% url 'register' %}"><strong>Register</strong></a></p>
+    <p><a href="{% url 'reset_pass' %}"><strong>Forgot Password?</strong></a></p> 
+</div></div>
+
+
+
+</body>
+</html>
+
+
+{% block newsletter %}
+{% endblock %}
+{% endblock body %} 
+{% block footer %}
+{% endblock %}

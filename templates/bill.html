@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #f2f2f2;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .invoice-header div {
+            width: 48%;
+        }
+        .invoice-header .company-info {
+            font-size: 14px;
+            color: #555;
+        }
+        .invoice-header .company-info h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .invoice-header .company-info p {
+            margin: 5px 0;
+        }
+        .invoice-details {
+            margin-bottom: 30px;
+        }
+        .invoice-details p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .total-amount {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: #777;
+        }
+        .footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="invoice-header">
+        <div class="company-info">
+            <h2>InfiniteRide</h2>
+            <p>Bharatpur, chitwan</p>
+            <p>Email: infiniteride12@gmail.com</p>
+            <p>Phone: +977-9800000000</p>
+        </div>
+        <div class="invoice-info">
+            
+            <h3>Invoice #{{ booking.id }}</h3>
+            <p><strong>Date:</strong> {{ booking.start_date }}</p>
+            <p><strong>Booking Status:</strong> {{ booking.status }}</p>
+            <div class="payment-status">
+                <p><strong>Payment Status:</strong> <span id="payment-status">{{ booking.payment_status|default:"Unpaid" }}</span></p>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="invoice-details">
+        <h3>Booking Details</h3>
+        <p><strong>User:</strong> {{ booking.user.username}}</p>
+        <p><strong>Phone:</strong> {{ booking.user.phone }}</p>
+        <p><strong>Vehicle:</strong> {{ booking.get_vehicle }}</p>
+        <p><strong>Vehicle Type:</strong> {{ booking.get_vehicle_type }}</p>
+        <p><strong>Drop-off Location:</strong> {{ booking.drop_off_address }}</p>
+        <p><strong>Booking Dates:</strong> {{ booking.start_date }} to {{ booking.end_date }}</p>
+    </div>
+
+    <div class="total-amount">
+        <p><strong>Total Amount: Rs {{ booking.total_amount }}</strong></p>
+    </div>
+    <div class="action-buttons">
+        <button onclick="window.print()">Print </button>
+        <button onclick="shareInvoice()">Share </button>
+    </div>
+    <div class="footer">
+        <p>Thank you for choosing InfiniteRide!</p>
+        <p>If you have any questions, please contact us at infiniteride12@gmail.com.</p>
+    </div>
+</div>
+
+</body>
+<script>
+    function printInvoice() {
+        window.print();
+    }
+
+    function shareInvoice() {
+        const subject = "Invoice for Booking #{{ booking.id }}";
+        const body = "Hello, here's the invoice for your recent booking with InfiniteRide:\n\n" +
+                     "Booking ID: {{ booking.id }}\n" +
+                     "User: {{ booking.user.username }}\n" +
+                     "Total Amount: ${{ booking.total_amount }}\n\n" +
+                     "Thank you for choosing InfiniteRide!\n\n" +
+                     "You can also visit our website for more details.";
+        window.location.href = `mailto:infiniteride12@gmail.com?subject=${subject}&body=${body}`;
+    }
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        const markPaidButton = document.getElementById("mark-paid");
+
+        if (markPaidButton) {
+            markPaidButton.addEventListener("click", function () {
+                const bookingId = markPaidButton.getAttribute("data-booking-id");
+
+                fetch(`/update-payment-status/${bookingId}/`, {
+                    method: "GET",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById("payment-status").textContent = data.new_status;
+                        markPaidButton.style.display = "none"; // Hide the button
+                    }
+                })
+                .catch(error => console.error("Error updating payment status:", error));
+            });
+        }
+    });
+
+
+    
+</script>
+</html>

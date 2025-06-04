@@ -1,0 +1,74 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-4">Manage Users</h1>
+
+    <!-- Display success or error messages -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <p style="color: green; font-weight: bold;">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Add User Button (top right corner) -->
+    <div class="text-right mb-4">
+        <a href="{% url 'add_user' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Add User</a>
+    </div>
+
+    <table class="min-w-full bg-white shadow rounded-lg">
+        <thead>
+            <tr class="border-b">
+                <th class="py-2 px-4 text-left">Username</th>
+                <th class="py-2 px-4 text-left">Email</th>
+                <th class="py-2 px-4 text-left"> Name</th>
+                
+                <th class="py-2 px-4 text-left">Admin</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in page_obj %}  <!-- Use `page_obj` for pagination -->
+                <tr class="border-b">
+                    <td class="py-2 px-4">
+                        <!-- Clickable link to view user details -->
+                        <a href="{% url 'user_details' user.id %}" class="text-blue-500">{{ user.username|default:"-" }}</a>
+                    </td>
+                    <td class="py-2 px-4">{{ user.email }}</td>  <!-- Fixed variable name -->
+                    <td class="py-2 px-4">{{ user.username }}</td> 
+                    
+                    <td class="py-2 px-4">
+                        <!-- Admin Status (is_staff) -->
+                        {% if user.is_staff or user.is_superuser %}
+                            ✅
+                        {% else %}
+                            ❌
+                        {% endif %}
+                    </td>
+                    
+                    
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="py-4 text-center text-gray-500">No users found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="mt-4">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="px-3 py-1 bg-blue-500 text-white rounded">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 bg-blue-500 text-white rounded">Previous</a>
+        {% endif %}
+
+        <span class="px-3 py-1 bg-gray-300 rounded">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 bg-blue-500 text-white rounded">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-1 bg-blue-500 text-white rounded">Last</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,230 @@
+<!doctype html>
+{% extends "base.html" %}
+{% block title %} Infinite Ride {% endblock title %}
+
+{% block body %} {% load static %}
+
+<div class="container mt-5">
+    <!-- Rental Policies Section -->
+    <section id="rental-policy" class="mb-5">
+        <h5 class="text-center mb-4 fw-bold "style="color: #9c0909;">Rental Policies</h5>
+        <p class="lead text-muted small">
+            Our rental policies are designed to provide you with a seamless and secure rental experience. 
+            We prioritize safety, transparency, and customer satisfaction, ensuring a smooth process from booking to return.
+        </p>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="fw-bold">Booking & Payments</h6>
+                <p class="text-muted small">
+                    Customers can book a vehicle without any upfront payment. Payments can be made at the time of vehicle pickup via 
+                    <strong>PhonePe</strong> or cash at our company counter. You will receive a booking confirmation with all necessary details.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h6 class="fw-bold">Rental Duration</h6>
+                <p class="text-muted small">
+                    The minimum rental period is <strong>1 day</strong>. Extensions are allowed, but advance notice is required for availability and billing adjustments.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="fw-bold">Vehicle Usage</h6>
+                <p class="text-muted small">
+                    Only licensed drivers can operate vehicles. Cars are available with or without a driver, while bikes are self-drive only.
+                    Travel vehicles (Sumo, Jeep, Bus) require a company-provided driver. Misuse of the vehicle may result in penalties.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h6 class="fw-bold">Damage & Insurance</h6>
+                <p class="text-muted small">
+                    Any damages during the rental period will be deducted from the security deposit. 
+                    Damage caused by natural disasters (earthquakes, floods) is covered by the company. Insurance options are available.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Policy Section -->
+    <section id="privacy-policy" class="mb-5">
+        <h5 class="text-center mb-4 fw-bold" style="color: #9c0909;">Privacy Policy</h5>
+        <p class="text-muted small">
+            At Infinite Ride, we value your privacy and are committed to safeguarding your personal information. Your data is collected only for essential purposes such as booking verification, customer support, and ensuring a seamless rental experience.
+        
+            We use secure encryption methods to store your information and never share your data with third parties unless legally required. Our privacy practices comply with industry standards to ensure your details remain safe and confidential.
+        
+            By using our services, you agree to our privacy terms. If there are any updates to our policy, we will notify you accordingly. Your trust is important to us, and we are dedicated to maintaining transparency in how we handle your information.
+        </p>
+    </section>    
+    
+
+   
+<!-- Terms & Conditions Section -->
+<section id="terms-conditions" class="mb-5">
+    <h5 class="text-center mb-4 fw-bold" style="color: #9c0909;">Terms & Conditions</h5>
+    <p class="text-muted small text-center">
+        By renting a vehicle, you agree to the following terms. Please read carefully before proceeding.
+    </p>
+
+    <div class="row">
+        <!-- Term 1 -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-3" style="border-color: #0b2d4f;">
+                <div class="card-body">
+                    <h6 class="fw-bold" style="color: #0b2d4f;">
+                        <i class="bi bi-person-check"></i> 1. Eligibility & Driver Requirements
+                    </h6>
+                    <p class="text-muted small mb-0">
+                        Self Drive Renters must be at least <strong>18 years old</strong> with a valid driving license. Large Travel vehicles require a company-provided driver.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 2 -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-3" style="border-color: #0b2d4f;">
+                <div class="card-body">
+                    <h6 class="fw-bold" style="color: #0b2d4f;">
+                        <i class="bi bi-clock"></i> 2. Rental Period & Extensions
+                    </h6>
+                    <p class="text-muted small mb-0">
+                        The rental period is set at booking. Late returns may incur additional charges.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 3 -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-3" style="border-color: #0b2d4f;">
+                <div class="card-body">
+                    <h6 class="fw-bold" style="color: #0b2d4f;">
+                        <i class="bi bi-cash"></i> 3. Security Deposit & Payment
+                    </h6>
+                    <p class="text-muted small mb-0">
+                        A security deposit is required. Full payment is made at pickup. Currently, online payments are unavailable.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 4 -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-3" style="border-color: #0b2d4f;">
+                <div class="card-body">
+                    <h6 class="fw-bold" style="color: #0b2d4f;">
+                        <i class="bi bi-car-front"></i> 4. Vehicle Usage & Restrictions
+                    </h6>
+                    <p class="text-muted small mb-0">
+                        Vehicles must be used legally. Off-road driving, racing, and illegal activities are prohibited.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 5 -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-3" style="border-color: #0b2d4f;">
+                <div class="card-body">
+                    <h6 class="fw-bold" style="color: #0b2d4f;">
+                        <i class="bi bi-shield-exclamation"></i> 5. Damage & Insurance
+                    </h6>
+                    <p class="text-muted small mb-0">
+                        Damage costs will be deducted from the deposit. Insurance is available. Natural disaster damage is covered by the company.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 6 -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-3" style="border-color: #0b2d4f;">
+                <div class="card-body">
+                    <h6 class="fw-bold" style="color: #0b2d4f;">
+                        <i class="bi bi-fuel-pump"></i> 6. Fuel Policy
+                    </h6>
+                    <p class="text-muted small mb-0">
+                        Vehicles must be returned with the same fuel level to avoid refueling charges.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 7 -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-3" style="border-color: #0b2d4f;">
+                <div class="card-body">
+                    <h6 class="fw-bold" style="color: #0b2d4f;">
+                        <i class="bi bi-x-circle"></i> 7. Cancellation & Refund Policy
+                    </h6>
+                    <p class="text-muted small mb-0">
+                        Cancellations <strong>24 hours</strong> before pickup are free. Late cancellations may incur charges.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 8 -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-3" style="border-color: #0b2d4f;">
+                <div class="card-body">
+                    <h6 class="fw-bold" style="color: #0b2d4f;">
+                        <i class="bi bi-exclamation-circle"></i> 8. Liability & Indemnity
+                    </h6>
+                    <p class="text-muted small mb-0">
+                        The company is not responsible for personal injuries or lost belongings during the rental period.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Term 9 -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-3" style="border-color: #0b2d4f;">
+                <div class="card-body">
+                    <h6 class="fw-bold" style="color: #0b2d4f;">
+                        <i class="bi bi-clipboard-x"></i> 9. Termination of Agreement
+                    </h6>
+                    <p class="text-muted small mb-0">
+                        The company can terminate rentals if terms are violated. No refunds will be provided.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+    <!-- Help Center Section -->
+    <section id="help-center" class="mb-5">
+        <h5 class="text-center mb-4 fw-bold "style="color: #9c0909;">Help Center</h5>
+        <p class="lead text-muted small">
+            Need assistance? Contact us below:
+        </p>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="fw-bold">Contact Us</h6>
+                <p class="text-muted small"><strong>Email:</strong> infiniteride12@gmail.com</p>
+                <p class="text-muted small"><strong>Phone:</strong> 98000000</p>
+                <a href="/contact">
+                    <button class="btn btn-primary btn-sm">Send Message</button>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <h6 class="fw-bold">FAQs</h6>
+                <ul class="list-group list-group-flush small">
+                    <li class="list-group-item text-muted small"><strong>How do I book a vehicle?</strong> Book via our website or visit our office.</li>
+                    <li class="list-group-item text-muted small"><strong>What documents are required?</strong> A valid driver's license and either a citizenship card or passport.</li>
+                    <li class="list-group-item text-muted small"><strong>What happens if I return the vehicle late?</strong> You will be charged double the daily rate for each extra day.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+{% block footer %}{% endblock %}
+{% endblock body %}

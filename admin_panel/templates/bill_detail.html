@@ -1,0 +1,151 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<div class="container" id="invoice-section">
+    <div class="invoice-header">
+        <div class="company-info">
+            <h2>InfiniteRide</h2>
+            <p>Bharatpur, Chitwan</p>
+            <p>Email: infiniteride12@gmail.com</p>
+            <p>Phone: 9800000</p>
+        </div>
+        <div class="invoice-info">
+            <h3>Invoice #{{ bill.id }}</h3>
+            <p><strong>Date:</strong> {{ bill.confirmation_date }}</p>
+            <p><strong>Booking ID:</strong> {{ bill.booking.id }}</p>
+            <p><strong>Payment Status:</strong> {{ bill.payment_status|default:"Unpaid" }}</p>
+        </div>
+    </div>
+
+    <div class="invoice-details">
+        <h3>Booking Details</h3>
+        
+        <p><strong>User:</strong> {{ bill.user.username }}</p>
+        <p><strong>Phone:</strong> {{ bill.user.phone }}</p>
+        <p><strong>Vehicle:</strong> {{ bill.booking.get_vehicle }}</p>
+        <p><strong>Vehicle Type:</strong> {{ bill.booking.get_vehicle_type }}</p>
+        <p><strong>Booking Dates:</strong> {{ bill.booking.start_date }} to {{ bill.booking.end_date }}</p>
+        <p><strong>Total Amount:</strong> Rs {{ bill.total_amount }}</p>
+    </div>
+
+    <div class="total-amount">
+        <p><strong>Total Amount Due: ${{ bill.total_amount }}</strong></p>
+    </div>
+
+    <div class="action-buttons no-print">
+        <button class="print-btn" onclick="window.print()">Print </button>
+        <button class="share-btn" onclick="shareInvoice()">Share </button>
+    </div>
+
+    <div class="footer">
+        <p>Thank you for choosing InfiniteRide!</p>
+        <p>If you have any questions, please contact us at infiniteride12@gmail.com.</p>
+    </div>
+</div>
+
+<style>
+    .container {
+        width: 80%;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
+    
+    .invoice-header {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 2px solid #f2f2f2;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .company-info h2 {
+        margin: 0;
+        font-size: 18px;
+        color: #333;
+    }
+
+    .invoice-details p,
+    .invoice-info p,
+    .total-amount p {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+
+    .total-amount {
+        text-align: right;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .print-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .share-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 12px;
+        color: #777;
+    }
+
+    /* Hide everything except invoice during print */
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #invoice-section, #invoice-section * {
+            visibility: visible;
+        }
+
+        #invoice-section {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+
+        .no-print {
+            display: none !important;
+        }
+    }
+</style>
+
+<script>
+    function shareInvoice() {
+        const subject = "Invoice for Booking #{{ bill.id }}";
+        const body = "Hello, here's the invoice for your recent booking with InfiniteRide:\n\n" +
+            "Booking ID: {{ bill.booking.id }}\n" +
+            "User: {{ bill.user.username }}\n" +
+            "Total Amount: ${{ bill.total_amount }}\n\n" +
+            "Thank you for choosing InfiniteRide!\n\n" +
+            "You can also visit our website for more details.";
+        window.location.href = `mailto:infiniteride12@gmail.com?subject=${subject}&body=${body}`;
+    }
+</script>
+{% endblock %}

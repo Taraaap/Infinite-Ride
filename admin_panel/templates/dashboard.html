@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Dashboard{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <aside class="w-64 bg-gray-900 text-white p-5">
+            <h1 class="text-2xl font-bold">InfiniteRide Admin</h1>
+            <nav class="mt-5">
+                <ul>
+                    <li class="mb-2"><a href="{% url 'dashboard' %}" class="flex items-center p-2 hover:bg-gray-700 rounded"><i class="fas fa-tachometer-alt mr-2"></i> Dashboard</a></li>
+                    <li class="mb-2"><a href="{% url 'bike' %}" class="flex items-center p-2 hover:bg-gray-700 rounded"><i class="fas fa-motorcycle mr-2"></i> Bikes</a></li>
+                    <li class="mb-2"><a href="{% url 'car' %}" class="flex items-center p-2 hover:bg-gray-700 rounded"><i class="fas fa-car-side mr-2"></i> Cars</a></li>
+                    <li class="mb-2"><a href="{% url 'large_vehicle' %}" class="flex items-center p-2 hover:bg-gray-700 rounded"> <i class="fas fa-bus-alt mr-2"></i> Large Vehicles</a></li>
+                    <li class="mb-2"><a href="{% url 'admin_booking' %}" class="flex items-center p-2 hover:bg-gray-700 rounded"><i class="fas fa-calendar-check mr-2"></i> Bookings
+                        {% if unseen_booking_count > 0 %}
+                        <span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs ml-2">{{ unseen_booking_count }}</span>
+                    {% endif %}</a></li>
+                    <li class="mb-2"><a href="{% url 'admin_contact' %}" class="flex items-center p-2 hover:bg-gray-700 rounded"><i class="fas fa-envelope mr-2"></i> Contacts</a></li>
+                    <li class="mb-2"><a href="{% url 'admin_review' %}" class="flex items-center p-2 hover:bg-gray-700 rounded"><i class="fas fa-star mr-2"></i> Reviews</a></li>
+                    <li class="mb-2"><a href="{% url 'admin_bill' %}" class="flex items-center p-2 hover:bg-gray-700 rounded"><i class="fas fa-file-invoice-dollar mr-2"></i> Bill</a></li>
+                    <li class="mb-2"><a href="{% url 'user' %}" class="flex items-center p-2 hover:bg-gray-700 rounded"><i class="fas fa-users mr-2"></i> Users</a></li>
+                    <li class="mb-2"><a href="{% url 'admin_logout' %}" class="flex items-center p-2 hover:bg-gray-700 rounded text-red-400"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a></li>
+                </ul>
+                
+            </nav>
+        </aside>
+        
+        <main class="flex-1 p-6">
+            {% block content %}
+            <header class="flex justify-between items-center bg-white p-4 shadow rounded">
+                <div class="text-lg font-semibold">Welcome, {{ request.user.username }}</div> 
+                <div class="flex items-center">
+                </div>
+            </header>
+            
+            <section class="grid grid-cols-4 gap-6 mt-6">
+                <div class="bg-white p-5 shadow rounded">
+                    <h2 class="text-gray-600">Total Users</h2>
+                    <p class="text-2xl font-bold">{{ total_users }}</p>
+                </div>
+                <div class="bg-white p-5 shadow rounded">
+                    <h2 class="text-gray-600">Total Bookings</h2>
+                    <p class="text-2xl font-bold">{{ total_bookings }}</p>
+                </div>
+                <div class="bg-white p-5 shadow rounded">
+                    <h2 class="text-gray-600">Total Cars</h2>
+                    <p class="text-2xl font-bold">{{ total_cars }}</p>
+                </div>
+                <div class="bg-white p-5 shadow rounded">
+                    <h2 class="text-gray-600">Total Bikes</h2>
+                    <p class="text-2xl font-bold">{{ total_bikes }}</p>
+                </div>
+                <div class="bg-white p-5 shadow rounded">
+                    <h2 class="text-gray-600">Total Large Vehicles</h2>
+                    <p class="text-2xl font-bold">{{ total_large_vehicles }}</p>
+                </div>
+                <div class="bg-white p-5 shadow rounded">
+                    <h2 class="text-gray-600">Confirmed Bookings</h2>
+                    <p class="text-2xl font-bold ">{{ confirmed_bookings }}</p>
+                </div>
+                <!-- <div class="bg-white p-5 shadow rounded">
+                    <h2 class="text-gray-600">Cancelled Bookings</h2>
+                    <p class="text-2xl font-bold ">{{ canceled_bookings }}</p>
+                </div> -->
+                <!-- <div class="bg-white p-5 shadow rounded">
+                    <h2 class="text-gray-600">Pending Bookings</h2>
+                    <p class="text-2xl font-bold ">{{ pending_bookings }}</p>
+                </div> -->
+                <div class="bg-white p-5 shadow rounded">
+                    <h2 class="text-gray-600">Completed Bookings</h2>
+                    <p class="text-2xl font-bold text-blue-600 ">{{ completed_bookings }}</p>
+                </div>
+            </section>
+            {% endblock %}
+        </main>
+    </div>
+</body>
+</html>

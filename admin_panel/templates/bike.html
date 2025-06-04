@@ -1,0 +1,48 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-4">Manage Bikes</h1>
+<!-- Display success or error messages -->
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+        <p style="color: green; font-weight: bold;">{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+    <!-- Add Bike Button (top right corner) -->
+    <div class="text-right mb-4">
+        <a href="{% url 'add_bike' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Add Bike</a>
+    </div>
+
+    <table class="min-w-full bg-white shadow rounded-lg">
+        <thead>
+            <tr class="border-b">
+                <th class="py-2 px-4 text-left">Name</th>
+                <th class="py-2 px-4 text-left">Price per Day</th>
+                <th class="py-2 px-4 text-left">Available</th>
+                <th class="py-2 px-4 text-left">Featured</th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            {% for bike in bikes %}
+                <tr class="border-b">
+                    <td class="py-2 px-4">
+                        <!-- Clickable link to edit bike details -->
+                        <a href="{% url 'bike_details' bike.id %}" class="text-blue-500">{{ bike.name }}</a>                   
+                     </td>
+                    <td class="py-2 px-4">{{ bike.price_per_day }}</td>
+                    <td class="py-2 px-4">{{ bike.available }}</td>
+                    <td class="py-2 px-4">{{ bike.featured_vehicle }}</td>
+                    
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="py-4 text-center text-gray-500">No bikes available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

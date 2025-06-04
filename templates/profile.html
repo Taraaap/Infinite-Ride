@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Infinite Ride{% endblock %}
+
+{% block body %}
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg rounded-4 p-4">
+        <div class="row g-4">
+          
+          <!-- Left: Basic Info & Button -->
+          <div class="col-md-4 border-end">
+            <h4 class="fw-bold mb-3">{{ user.username }}'s Profile</h4>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Name:</strong> {{ user.username }}</li>
+              <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+              <li class="list-group-item"><strong>Phone:</strong> {{ user.phone }}</li>
+            </ul>
+            <div class="d-grid mt-4">
+              <a href="{% url 'edit_profile' %}" class="btn btn-danger">Edit Profile</a>
+            </div>
+          </div>
+
+          <!-- Right: Description / Info -->
+          <div class="col-md-8 d-flex flex-column justify-content-center">
+            <h5 class="fw-semibold">Manage Your Account</h5>
+            <p class="mt-2 text-muted">
+              Keep your contact information accurate to ensure you receive important updates about your bookings and account activity.
+            </p>
+            <p class="text-muted">
+              You can edit your profile anytime using the button provided. Your details help us personalize your experience on Infinite Ride.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% block footer %}
+{% endblock %}
+{% endblock %}

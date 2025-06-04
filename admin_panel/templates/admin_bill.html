@@ -1,0 +1,68 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-4">Manage Bills</h1>
+
+    <!-- Display success or error messages -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p style="color: green; font-weight: bold;">{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Add Bill Button (top right corner) -->
+    <div class="text-right mb-4">
+        <a href="{% url 'add_bill' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Create Bill</a>
+    </div>
+
+    <table class="min-w-full bg-white shadow rounded-lg">
+        <thead>
+            <tr class="border-b">
+                <!-- <th class="py-2 px-4 text-left">Bill no.</th>
+                <th class="py-2 px-4 text-left">Booking ID</th> -->
+                <th class="py-2 px-4 text-left">User</th>
+                <th class="py-2 px-4 text-left">Total Amount</th>
+                <th class="py-2 px-4 text-left">Payment Status</th>
+                <th class="py-2 px-4 text-left">details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bill in page_obj %}
+                <tr class="border-b">
+                    <!-- <td class="py-2 px-4">{{ bill.id }}</td> 
+                    <td class="py-2 px-4">{{ bill.booking.id }}</td>  -->
+                    <td class="py-2 px-4">{{ bill.user.username }}</td>
+                    <td class="py-2 px-4">{{ bill.total_amount }}</td>
+                    <td class="py-2 px-4">{{ bill.payment_status }}</td>
+                   
+                    
+                    <td class="py-2 px-4">
+                        <a href="{% url 'bill_details' bill.id %}" class="text-blue-500">View</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="py-4 text-center text-gray-500">No bills available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination controls -->
+    <div class="mt-4">
+        <span class="mr-2">Page: {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="bg-blue-500 text-white py-1 px-3 rounded">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="bg-blue-500 text-white py-1 px-3 rounded">Previous</a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="bg-blue-500 text-white py-1 px-3 rounded">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="bg-blue-500 text-white py-1 px-3 rounded">Last</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

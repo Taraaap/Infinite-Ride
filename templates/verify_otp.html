@@ -1,0 +1,165 @@
+<!doctype html>
+{% extends "base.html" %}
+{% block title %}Infinite Ride{% endblock %}
+
+{% block body %}
+<div class="otp-body">
+    <div class="otp-container">
+        <h2>Enter OTP</h2>
+        <p>We have sent a 6-digit OTP to your email. Please enter it below.</p>
+        
+        <form method="post" action="{% url 'verify_otp' %}">
+            {% csrf_token %}
+            <input type="text" name="otp" placeholder="Enter OTP" required>
+            <button type="submit">Verify</button>
+        </form>
+
+        <p><a href="{% url 'reset_pass' %}"><strong>Resend OTP</strong></a></p>
+    </div>
+</div>
+<style>
+    .otp-body {
+        height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .otp-container {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 320px;
+        text-align: center;
+    }
+    
+    input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        outline: none;
+    }
+    
+    input:focus {
+        border-color: #0b2d4f;
+    }
+    
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #0b2d4f;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+    
+    button:hover {
+        background-color: #9c0909;
+    }
+    
+    a {
+        display: inline-block;
+        margin-top: 10px;
+        text-decoration: none;
+        color: #9c0909;
+        font-size: 14px;
+    }
+    
+    a:hover {
+        text-decoration: underline;
+        color: #0b2d4f;
+    }
+    </style>
+
+    <!-- Password Reset Modal -->
+<div id="resetPasswordModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Reset Password</h2>
+        <form id="resetPasswordForm" method="post" action="{% url 'save_password' %}">
+            {% csrf_token %}
+            <input type="password" name="new_password" placeholder="Enter Password" required>
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</div>
+<script>
+   
+{% if otp_verified %}
+    document.getElementById("resetPasswordModal").style.display = "flex";
+{% endif %}
+    document.querySelector(".close").addEventListener("click", function() {
+        document.getElementById("resetPasswordModal").style.display = "none";
+    });
+</script>
+<style>
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0b2d4f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #9c0909;
+}
+</style>
+
+
+{% block newsletter %}
+{% endblock %}
+{% endblock body %}
+{% block footer %}
+{% endblock %}
